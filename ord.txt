@@ -1,0 +1,3 @@
+nume	prenume	varsta	localitate
+george	brande	30	constanta
+alex	ion	30	braila
