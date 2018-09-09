@@ -15,7 +15,7 @@ with open('ord2.txt', 'r') as f:
 
 def insert_customer(customer):
 
-    sql = """INSERT INTO orders VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+    sql = """INSERT INTO orders2 VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
     conn = None
     try:
         params = config()
