@@ -3,19 +3,24 @@ import csv
 
 from config import config
 
-with open('ord3.txt', 'r') as f:
+with open('ord10.txt', 'r') as f:
     reader = csv.reader(f, delimiter='\t')
     next(reader, None)
     read_lines = []
     included = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 20, 34, 35, 36, 43, 46, 49]
+    content = []
+
     for row in reader:
-        content = list(row[i] for i in included)
-        read_lines.append(tuple(content))
+        if row[34] == '1':
+            content = list(row[i] for i in included)
+            read_lines.append(tuple(content))
 ##    print (read_lines)
+        
+
 
 def insert_customer(customer):
 
-    sql = """INSERT INTO ord7(status, order_no, simbol, simbol_type, market, ef_time, side, price, volum, order_term, ticket, update_type, update_time, trader, iacc, cant_exec, order_status) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+    sql = """INSERT INTO ord8(status, order_no, simbol, simbol_type, market, ef_time, side, price, volum, order_term, ticket, update_type, update_time, trader, internal_account, cant_exec, order_status) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
     conn = None
     try:
         params = config()
