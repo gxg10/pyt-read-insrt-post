@@ -6,15 +6,19 @@ from config import config
 with open('ord10.txt', 'r') as f:
     reader = csv.reader(f, delimiter='\t')
     next(reader, None)
-    read_lines = []
+    ordine_noi = []
+    ordine_modif = []
     included = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 20, 34, 35, 36, 43, 46, 49]
     content = []
 
     for row in reader:
         if row[34] == '1':
             content = list(row[i] for i in included)
-            read_lines.append(tuple(content))
-##    print (read_lines)
+            ordine_noi.append(tuple(content))
+        elif row[34] == '2':
+            content = list(row[i] for i in included)
+            ordine_modif.append(tuple(content))
+    print (ordine_modif)
         
 
 
@@ -37,5 +41,5 @@ def insert_customer(customer):
             conn.close()
 
 if __name__=='__main__':
-    for i in read_lines:    
+    for i in ordine_noi:    
         insert_customer(i)
