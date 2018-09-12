@@ -28,7 +28,79 @@ with open('ord11.txt', 'r') as f:
             content = list(row[i] for i in included)
             ordine_anulate.append(tuple(content))
 ##    print (ordine_noi)
+
+##with open('IFBK_Clienti.txt', 'r') as g:
+##    reader = csv.reader(g, delimiter='\t')
+##    clienti = []
+##    included = [0, 1, 3, 4, 6]
+##    content = []
+##    for row in reader:
+##        content = list(row[i] for i in included)
+##        clienti.append(tuple(content))
+####    print (clienti)
+
+
+##    sql = """INSERT INTO ord8(status, order_no, simbol, simbol_type, market, ef_time, side, price, volum, order_term, ticket, update_type, update_time, trader, iacc, cant_exec, order_status) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+
+def insert_customer(customer):
     
+    sql = """INSERT INTO ord9( data, simbol, side, cont_arena, volum, pret, order_no, internal_account, piata, simbol_type, limita_pret, trader) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+ ##       cur.execute(sql, customer)
+        cur.executemany(sql, customer)
+
+        conn.commit()
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+##print (insert_customer(ordine_noi))
+
+def insert_clienti(clienti):
+
+    sql = """ INSERT INTO clienti(iacc, nume, broker, pers, cnp) VALUES (%s, %s, %s, %s, %s)"""
+
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        cur.executemany(sql, clienti)
+
+        conn.commit()
+        cur.close()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+##print (insert_clienti(clienti))
+
+def read(account):
+    sql = """SELECT nume from clienti where iacc ="""+ str(account)
+    conn = None
+    try:
+        params = config()
+        conn = psycopg2.connect(**params)
+        cur = conn.cursor()
+        cur.execute(sql)
+        test = cur.fetchall()
+    except (Exception, psycopg2.DatabaseError) as error:
+        print(error)
+    finally:
+        if conn is not None:
+            conn.close()
+    return test[0]
+
+print (read(1032690))
+
 # if UTY==1:
 #     insert_to_sql
 # elif UTY==2:
@@ -55,30 +127,6 @@ with open('ord11.txt', 'r') as f:
 # trader = row[36]
 # order_no=row[1]
 # limita_pret=row[40]
-
-
-##    sql = """INSERT INTO ord8(status, order_no, simbol, simbol_type, market, ef_time, side, price, volum, order_term, ticket, update_type, update_time, trader, iacc, cant_exec, order_status) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-
-def insert_customer(customer):
-    
-    sql = """INSERT INTO ord9( data, simbol, side, cont_arena, volum, pret, order_no, internal_account, piata, simbol_type, limita_pret, trader) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
-
-    conn = None
-    try:
-        params = config()
-        conn = psycopg2.connect(**params)
-        cur = conn.cursor()
- ##       cur.execute(sql, customer)
-        cur.executemany(sql, customer)
-
-        conn.commit()
-        cur.close()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        if conn is not None:
-            conn.close()
-print (insert_customer(ordine_noi))
 
 ############if __name__=='__main__':
 ############   for i in ordine_noi:    
