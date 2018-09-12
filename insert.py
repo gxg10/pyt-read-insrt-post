@@ -1,32 +1,33 @@
 import psycopg2
 import csv
+from fpdf import FPDF
 
 from config import config
 
-with open('ord11.txt', 'r') as f:
-    reader = csv.reader(f, delimiter='\t')
-    next(reader, None)
-    ordine_noi = []
-    ordine_modif = []
-    ordine_executate = []
-    ordine_anulate = []
+##with open('ord11.txt', 'r') as f:
+##    reader = csv.reader(f, delimiter='\t')
+##    next(reader, None)
+##    ordine_noi = []
+##    ordine_modif = []
+##    ordine_executate = []
+##    ordine_anulate = []
 ## TABEL nou
-    included = [6, 3, 7, 27, 9, 8, 1, 43,5, 4, 40, 36]
-##    included = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 20, 34, 35, 36, 43, 46, 49]
-    content = []
-    for row in reader:
-        if row[34] == '1':
-            content = list(row[i] for i in included)
-            ordine_noi.append(tuple(content))
-        elif row[34] == '2':
-            content = list(row[i] for i in included)
-            ordine_modif.append(tuple(content))
-        elif row[34] == '3':
-            content = list(row[i] for i in included)
-            ordine_executate.append(tuple(content))    
-        elif row[34] == '12':
-            content = list(row[i] for i in included)
-            ordine_anulate.append(tuple(content))
+##    included = [6, 3, 7, 27, 9, 8, 1, 43,5, 4, 40, 36]
+####    included = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 20, 34, 35, 36, 43, 46, 49]
+##    content = []
+##    for row in reader:
+##        if row[34] == '1':
+##            content = list(row[i] for i in included)
+##            ordine_noi.append(tuple(content))
+##        elif row[34] == '2':
+##            content = list(row[i] for i in included)
+##            ordine_modif.append(tuple(content))
+##        elif row[34] == '3':
+##            content = list(row[i] for i in included)
+##            ordine_executate.append(tuple(content))    
+##        elif row[34] == '12':
+##            content = list(row[i] for i in included)
+##            ordine_anulate.append(tuple(content))
 ##    print (ordine_noi)
 
 ##with open('IFBK_Clienti.txt', 'r') as g:
@@ -84,7 +85,7 @@ def insert_clienti(clienti):
 ##print (insert_clienti(clienti))
 
 def read(account):
-    sql = """SELECT nume from clienti where iacc ="""+ str(account)
+    sql = """SELECT * from clienti join ord7 on clienti.id = ord7.id where clienti.iacc ="""+ str(account)
     conn = None
     try:
         params = config()
@@ -97,9 +98,9 @@ def read(account):
     finally:
         if conn is not None:
             conn.close()
-    return test[0]
+    return test
 
-print (read(1032690))
+print (read(1027170))
 
 # if UTY==1:
 #     insert_to_sql
