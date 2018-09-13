@@ -4,30 +4,30 @@ from fpdf import FPDF
 
 from config import config
 
-##with open('ord11.txt', 'r') as f:
-##    reader = csv.reader(f, delimiter='\t')
-##    next(reader, None)
-##    ordine_noi = []
-##    ordine_modif = []
-##    ordine_executate = []
-##    ordine_anulate = []
-## TABEL nou
+with open('ord.txt', 'r') as f:
+    reader = csv.reader(f, delimiter='\t')
+    next(reader, None)
+    ordine_noi = []
+    ordine_modif = []
+    ordine_executate = []
+    ordine_anulate = []
+#### TABEL nou
 ##    included = [6, 3, 7, 27, 9, 8, 1, 43,5, 4, 40, 36]
-####    included = [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 20, 34, 35, 36, 43, 46, 49]
-##    content = []
-##    for row in reader:
-##        if row[34] == '1':
-##            content = list(row[i] for i in included)
-##            ordine_noi.append(tuple(content))
-##        elif row[34] == '2':
-##            content = list(row[i] for i in included)
-##            ordine_modif.append(tuple(content))
-##        elif row[34] == '3':
-##            content = list(row[i] for i in included)
-##            ordine_executate.append(tuple(content))    
-##        elif row[34] == '12':
-##            content = list(row[i] for i in included)
-##            ordine_anulate.append(tuple(content))
+    included = [1, 3, 4, 5, 6, 7, 8, 9, 10, 20, 34, 35, 36, 43, 46, 49]
+    content = []
+    for row in reader:
+        if row[34] == '1':
+            content = list(row[i] for i in included)
+            ordine_noi.append(tuple(content))
+        elif row[34] == '2':
+            content = list(row[i] for i in included)
+            ordine_modif.append(tuple(content))
+        elif row[34] == '3':
+            content = list(row[i] for i in included)
+            ordine_executate.append(tuple(content))    
+        elif row[34] == '12':
+            content = list(row[i] for i in included)
+            ordine_anulate.append(tuple(content))
 ##    print (ordine_noi)
 
 ##with open('IFBK_Clienti.txt', 'r') as g:
@@ -41,11 +41,11 @@ from config import config
 ####    print (clienti)
 
 
-##    sql = """INSERT INTO ord8(status, order_no, simbol, simbol_type, market, ef_time, side, price, volum, order_term, ticket, update_type, update_time, trader, iacc, cant_exec, order_status) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+##    sql = """INSERT INTO ord77( data, simbol, side, cont_arena, volum, pret, order_no, internal_account, piata, simbol_type, limita_pret, trader) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
 def insert_customer(customer):
     
-    sql = """INSERT INTO ord9( data, simbol, side, cont_arena, volum, pret, order_no, internal_account, piata, simbol_type, limita_pret, trader) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+    sql = """INSERT INTO ord77s(status, order_no, simbol, simbol_type, market, ef_time, side, price, volum, order_term, ticket, update_type, update_time, trader, internal_account, cant_exec) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
     conn = None
     try:
@@ -62,7 +62,7 @@ def insert_customer(customer):
     finally:
         if conn is not None:
             conn.close()
-##print (insert_customer(ordine_noi))
+print (insert_customer(ordine_noi))
 
 def insert_clienti(clienti):
 
@@ -84,23 +84,23 @@ def insert_clienti(clienti):
             conn.close()
 ##print (insert_clienti(clienti))
 
-def read(account):
-    sql = """SELECT * from clienti join ord7 on clienti.id = ord7.id where clienti.iacc ="""+ str(account)
-    conn = None
-    try:
-        params = config()
-        conn = psycopg2.connect(**params)
-        cur = conn.cursor()
-        cur.execute(sql)
-        test = cur.fetchall()
-    except (Exception, psycopg2.DatabaseError) as error:
-        print(error)
-    finally:
-        if conn is not None:
-            conn.close()
-    return test
-
-print (read(1027170))
+##def read(account):
+##    sql = """SELECT * from clienti join ord7 on clienti.id = ord7.id where clienti.iacc ="""+ str(account)
+##    conn = None
+##    try:
+##        params = config()
+##        conn = psycopg2.connect(**params)
+##        cur = conn.cursor()
+##        cur.execute(sql)
+##        test = cur.fetchall()
+##    except (Exception, psycopg2.DatabaseError) as error:
+##        print(error)
+##    finally:
+##        if conn is not None:
+##            conn.close()
+##    return test
+##
+##print (read(1027170))
 
 # if UTY==1:
 #     insert_to_sql
